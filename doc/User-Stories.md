@@ -5,6 +5,8 @@
 * As a "commuter," I want to plan rides to one or more taprooms/brewpubs/distilleries ("destinations"), starting from and ending at an arbitrary location (like home), with the most efficient route plotted.
   * How do users set their start/end point? Geolocation?
   * Routes might be different each way (one-way streets, etc.)
+  * Users can select the markers
+  * Start with hardcoded
 
 * As a commuter, I want to be able to do all of this from my small-screen device
   * Responsive, start small-screen; iOS, Android
