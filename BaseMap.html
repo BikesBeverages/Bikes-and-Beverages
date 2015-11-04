@@ -50,9 +50,11 @@ function initGoogleMap() {
   
   var bikeLayer = new google.maps.BicyclingLayer();
   bikeLayer.setMap(map);
-
-  map.data.loadGeoJson('https://bikesbeverages.github.io/Bikes-and-Beverages/data/venues.json');
+map.data.loadGeoJson('https://bikesbeverages.github.io/Bikes-and-Beverages/data/venues.json');
+  
 }
+  
+  
     </script>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoE3QwsVadgmw0_XaZ-z73oAniNltqo50&callback=initGoogleMap">
