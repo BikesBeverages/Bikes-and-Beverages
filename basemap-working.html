@@ -8,7 +8,7 @@
   <body>
     <div id="google-map"></div>
     <script type="text/javascript">
-var google_map;
+
 function initGoogleMap() {
   var customMapType = new google.maps.StyledMapType([
     {
@@ -111,7 +111,7 @@ function initGoogleMap() {
     mapTypeControlOptions: {
       mapTypeIds: [google.maps.MapTypeId.ROADMAP, customMapTypeId]
     }
-  });
+  <!-- <!-- }); --> -->
   map.mapTypes.set(customMapTypeId, customMapType);
   map.setMapTypeId(customMapTypeId);
   
