@@ -3,6 +3,9 @@ var venues = {"type":"FeatureCollection","features":[{"type":"Feature","geometry
     venuesFriendly = {},
     marker,
     markers = [],
+    markerStart,
+    markerEnd,
+    latLngRegex = /^-?\d+\.\d+,-?\d+\.\d+$/,
     i;
 
 /**
@@ -25,7 +28,37 @@ for (i = 0; i < venues.features.length; i += 1) {
 
 }
 
-console.log(venuesFriendly);
+var startLocation = document.getElementById('sf-start-location');
+var endLocation = document.getElementById('sf-end-location');
+var routeEndInputWrapper = document.getElementById("sf-end-location-wrapper");
+var startEndOption = document.getElementById("sf-same-start-end");
+startEndOption.addEventListener("change", setEndInputVisibility, false);
+
+function setEndInputVisibility() {
+    routeEndInputWrapper.style.display = (startEndOption.checked) ? 'none' : 'block';
+    updateStartEndMarkers();
+}
+
+function updateStartEndMarkers() {
+    if (startEndOption.checked) {
+        if (typeof markerEnd !== "undefined") {
+            markerEnd.setMap(null);
+        }
+        endLocation.value = startLocation.value
+        markerStart.setLabel('!');
+        markerStart.setTitle('Start/end point');
+    } else {
+        // need some cleanup and additional work to create an end marker (sometimes)
+        if (typeof markerStart !== 'undefined') {
+            markerStart.setLabel('S');
+            markerStart.setTitle('Starting here');
+        }
+        if (typeof markerEnd !== 'undefined') {
+            markerEnd.setLabel('E');
+            markerEnd.setTitle('Ending here');
+        }
+    }
+}
 
 function initGoogleMap() {
     var map,
@@ -148,12 +181,11 @@ function initGoogleMap() {
     var titleWithLink;
 
     for (var key in venuesFriendly) {
-
         marker = new google.maps.Marker({
             position: venuesFriendly[key].coordinates,
             map: map,
             title: key,
-            label: key.substring(0,1)
+            label: ' '
         });
 
         titleWithLink = (venuesFriendly[key].website !== '') ? '<a href="' + venuesFriendly[key].website + '" target="_blank">' + key + '</a>' : key;
@@ -161,6 +193,50 @@ function initGoogleMap() {
         markers.push(marker);
     }    
 
+    google.maps.event.addListener(map, 'click', function(event) {
+        var markerLat = Math.round(event.latLng.lat() * 100000)/100000,
+            markerLng = Math.round(event.latLng.lng() * 100000)/100000;
+
+        if (document.activeElement.id === 'sf-start-location') {
+            if (typeof markerStart !== "undefined") {
+                markerStart.setMap(null);
+            }
+            markerStart = new google.maps.Marker({
+                position: {"lat": markerLat, "lng": markerLng},
+                map: map,
+                title: 'Starting here',
+                label: 'S'
+            });
+            startLocation.value = markerLat + ',' + markerLng;
+
+        }
+
+        if (document.activeElement.id === 'sf-end-location'
+            || (document.activeElement.id === 'sf-start-location' && startEndOption.checked)) {
+            if (typeof markerEnd !== "undefined") {
+                markerEnd.setMap(null);
+            }
+            if (!startEndOption.checked) {
+                markerEnd = new google.maps.Marker({
+                    position: {"lat": markerLat, "lng": markerLng},
+                    map: map,
+                    title: 'Ending here',
+                    label: 'E'
+                });
+                if (typeof markerStart !== "undefined") {
+                    markerStart.setLabel('S');
+                    markerStart.setTitle('Starting here');
+                }
+            } else {
+                markerStart.setLabel('!');
+                markerStart.setTitle('Start/end point');
+            }
+            
+            endLocation.value = markerLat + ',' + markerLng;
+        }
+
+
+    });
 }
 
 function makeInfoWindowEvent(map, infowindow, contentString, marker) {
