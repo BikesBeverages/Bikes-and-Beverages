@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css" src="css/aa.css"> </style>
+  </head>
+  <body>
+ 	<div id="map"></div>
+    <div id="right-panel">
+    <div>
+    <b>Start:</b>
+    <select id="start"></select>
+    <br>
+    <b>Waypoints:</b> <br>
+    <i>(Ctrl-Click for multiple selection)</i> <br>
+    <select multiple id="waypoints"></select>
+    <br>
+    <b>End:</b>
+    <select id="end"></select>
+    <br>
+      <input type="submit" id="submit">
+    </div>
+    <div id="directions-panel"></div>
+    </div>
+    <script type="text/javascript" src="js/aa.js"></script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoE3QwsVadgmw0_XaZ-z73oAniNltqo50&callback=initGoogleMap">
+    </script>
+  </body>
+</html>
