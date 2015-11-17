@@ -164,7 +164,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     destination: document.getElementById('end').value,
     waypoints: waypts,
     optimizeWaypoints: true,
-    travelMode: google.maps.TravelMode.BIKING
+    travelMode: google.maps.TravelMode.BICYCLING
   }, function(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
