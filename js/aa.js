@@ -1,4 +1,5 @@
-var map;
+	
+	var map;
      var venues = {"type":"FeatureCollection","features":[
 		{"type":"Feature","geometry":{"type":"Point","coordinates":[-93.28888028,44.9733473]},"properties":{"Name":"Sisyphus Brewing","Address 1":"712 Ontario Ave","Address 2":"Suite 100","City":"Minneapolis","State":"MN","ZIP":"","Website":"http://www.sisyphusbrewing.com/"}},
 		{"type":"Feature","geometry":{"type":"Point","coordinates":[-93.28850892,44.94889873]},"properties":{"Name":"Lynlake Brewery","Address 1":"2934 Lyndale Ave S","Address 2":"","City":"Minneapolis","State":"MN","ZIP":"","Website":"http://www.lynlakebrewery.com/"}},
@@ -59,8 +60,6 @@ for (i = 0; i < venues.features.length; i+=1) {
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
-   var coords = {"lat": 44.9719336, "lng": -93.24279719};
- 
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 11,
     center:{"lat": 44.9719336, "lng": -93.24279719}
@@ -70,7 +69,6 @@ function initMap() {
   document.getElementById('submit').addEventListener('click', function() {
     calculateAndDisplayRoute(directionsService, directionsDisplay);
   });
-
 }
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
