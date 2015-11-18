@@ -1,3 +1,4 @@
+	
 	var map;
      var venues = {"type":"FeatureCollection","features":[
 		{"type":"Feature","geometry":{"type":"Point","coordinates":[-93.28888028,44.9733473]},"properties":{"Name":"Sisyphus Brewing","Address 1":"712 Ontario Ave","Address 2":"Suite 100","City":"Minneapolis","State":"MN","ZIP":"","Website":"http://www.sisyphusbrewing.com/"}},
@@ -60,9 +61,10 @@ function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
   map = new google.maps.Map(document.getElementById('map'), {
-  zoom: 11,
-  center:{"lat": 44.9719336, "lng": -93.24279719}
+    zoom: 11,
+    center:{"lat": 44.9719336, "lng": -93.24279719}
   });
+ 
   directionsDisplay.setMap(map);
   document.getElementById('submit').addEventListener('click', function() {
     calculateAndDisplayRoute(directionsService, directionsDisplay);
@@ -86,7 +88,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     destination: document.getElementById('end').value,
     waypoints: waypts,
     optimizeWaypoints: true,
-    travelMode: google.maps.TravelMode.DRIVING
+    travelMode: google.maps.TravelMode.BICYCLING
   }, function(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
