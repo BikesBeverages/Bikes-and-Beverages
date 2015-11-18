@@ -227,6 +227,9 @@ var customMapType = new google.maps.StyledMapType([
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
    var coords = {"lat": 44.9719336, "lng": -93.24279719};
+   
+    navigator.geolocation.getCurrentPosition(function(position) {
+    alert("lat: " + position.coords.latitude + "\nlong: " + position.coords.longitude);
 	
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 11,
