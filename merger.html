@@ -12,31 +12,26 @@
     </div>
     <div class="map-controls">
         <h2>Where to?</h2>
-        <div id="start-and-finish">
+        <!-- <div id="start-and-finish">
             <p><label for="sf-start-location">Start at </label><input id="sf-start-location"></p>
             <p><label for="sf-same-start-end">Same start and end?</label> <input type="checkbox" id="sf-same-start-end" checked="checked"></p>
             <p id="sf-end-location-wrapper" class="sf-end-location-wrapper"><label for="sf-end-location">End at </label><input id="sf-end-location"></p>
-        </div>
+        </div> -->
         <div id="control-your-own">
             <h3>I Know Where I Want To Go</h3>
             <div class="method-settings">
-                <p>Great! Click a start point on the map, or enter an address.</p>
-                <p>INPUT FOR START HERE</p>
+                <p>Enter a starting and ending address</p>
+                <p><label for="user-start">Start at</label> <input id="user-start"></p>
+                <p><label for="user-end">End at</label> <input id="user-end"></p>
             </div>
             <div id="user-waypoints-wrapper">
-                <select id="user-start"></select><br><br>
-                <select multiple id="user-waypoints"></select><br><br>
-                <select id="user-end"></select><br><br>
-                <input type="submit" id="user-route-submit">
+
+                <label for="user-waypoints">Select one or more destinations</label> <select multiple id="user-waypoints"></select><br><br>
+                
+                <input type="submit" id="user-route-submit" value="Calculate best route">
             </div>
         </div>
         <div id="directions-panel" class="directions-panel"></div>
-        <div id="control-randomness">
-            <h3>Make Me Happy, Make Me a Route</h3>
-            <div class="method-settings">
-                <p>Give us an idea of how far you'd like to go and how many stops you'd like to make</p>
-            </div>
-        </div>
     </div>
     <div class="map-wrapper">
         <div id="google-map" class="google-map"></div>
