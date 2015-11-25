@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bikes &amp; Beverages Working</title>
+    <link rel="stylesheet" type="text/css" href='https://fonts.googleapis.com/css?family=Raleway:400,700,100'>
+    <link rel="stylesheet" type="text/css" href="css/merger.css">
+  </head>
+  <body>
+    <div class="title">
+        <h1>Bikes &amp; Beverages</h1>
+    </div>
+    <div class="map-controls">
+        <h2>Where to?</h2>
+        <div id="start-and-finish">
+            <p><label for="sf-start-location">Start at </label><input id="sf-start-location"></p>
+            <p><label for="sf-same-start-end">Same start and end?</label> <input type="checkbox" id="sf-same-start-end" checked="checked"></p>
+            <p id="sf-end-location-wrapper" class="sf-end-location-wrapper"><label for="sf-end-location">End at </label><input id="sf-end-location"></p>
+        </div>
+        <div id="control-your-own">
+            <h3>I Know Where I Want To Go</h3>
+            <div class="method-settings">
+                <p>Great! Click a start point on the map, or enter an address.</p>
+                <p>INPUT FOR START HERE</p>
+            </div>
+            <div id="user-waypoints-wrapper">
+                <select id="user-start"></select><br><br>
+                <select multiple id="user-waypoints"></select><br><br>
+                <select id="user-end"></select><br><br>
+                <input type="submit" id="user-route-submit">
+            </div>
+        </div>
+        <div id="directions-panel" class="directions-panel"></div>
+        <div id="control-randomness">
+            <h3>Make Me Happy, Make Me a Route</h3>
+            <div class="method-settings">
+                <p>Give us an idea of how far you'd like to go and how many stops you'd like to make</p>
+            </div>
+        </div>
+    </div>
+    <div class="map-wrapper">
+        <div id="google-map" class="google-map"></div>
+    </div>
+    <script src="js/merger.js" type="text/javascript"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoE3QwsVadgmw0_XaZ-z73oAniNltqo50&callback=initMap">
+    </script>
+  </body>
+</html>
