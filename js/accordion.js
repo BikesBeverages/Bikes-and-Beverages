@@ -3,7 +3,7 @@
     white: true
 */
 /*globals
-    google, jQuery
+    google, jQuery, $
 */
 "use strict";
 
@@ -23,8 +23,8 @@ var venues = {"type":"FeatureCollection","features":[{"type":"Feature","geometry
 /**
  * Enable popovers (via Bootstrap) in UI
  */
-jQuery(document).ready(function() {
-  jQuery('[data-toggle="popover"]').popover();
+$(document).ready(function() {
+  $('[data-toggle="popover"]').popover();
 });
 
 /**
