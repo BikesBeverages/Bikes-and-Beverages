@@ -62,22 +62,12 @@ var startEndOption = document.getElementById("sf-same-start-end");
  */
 for (i = 0; i < venues.features.length; i+=1) {
     wayList = document.getElementById('user-waypoints');
-    startList = document.getElementById('user-start');
-    endList = document.getElementById('user-end');
     entry1 = document.createElement('option');
-    entry2 = document.createElement('option');
-    entry3 = document.createElement('option');
     entry1.text = venues.features[i].properties.Name;
     entry1.value = venues.features[i].properties.Address1 + ', '
                     + venues.features[i].properties.City + ', '
                     + venues.features[i].properties.State;
-    entry2.text = entry1.text;
-    entry3.text = entry1.text;
-    entry2.value = entry1.value;
-    entry3.value = entry1.value;
     wayList.appendChild(entry1);
-    startList.appendChild(entry2);
-    endList.appendChild(entry3);
 }
 
 function initMap() {
