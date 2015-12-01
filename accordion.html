@@ -17,7 +17,7 @@
             <div class="panel-heading" role="tab" id="headingOne">
               <h2 class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  <span class="step">1</span> Where will you start and end?
+                  <span class="step">1</span> Starting where? Ending?
                 </a>
                 <span role="button" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your starting and ending locations. Already seeing addresses? Your location was reverse-geocoded.">
                     <span id="help-start-end" class="help-button glyphicon glyphicon-align-left glyphicon glyphicon-question-sign" aria-hidden="true">
@@ -55,7 +55,7 @@
                   <div class="form-group">
                     <label for="user-waypoints">Select one to eight destinations</label>
                     <select multiple size="8" id="user-waypoints" class="form-control"></select>
-                    <p><em>Windows: ctrl+click to select multiple<br>Mac: command+click to select multiple stops</em></p>
+                    <p><small><em>Windows: ctrl+click to select multiple<br>Mac: command+click to select multiple stops</em></small></p>
                   </div>
                   <input type="submit" id="user-route-submit" value="Calculate best route">
                 </div>
@@ -93,7 +93,7 @@
                 <div class="form-group">
                   <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" id="random-distance" placeholder="distance in miles">
+                    <input type="text" class="form-control" id="random-distance" placeholder="approximate distance">
                     <div class="input-group-addon">miles</div>
                   </div>
                 </div>
