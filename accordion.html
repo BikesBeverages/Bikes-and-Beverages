@@ -29,8 +29,14 @@
               <div class="panel-body">
                 <div class="method-settings">
                   <p>Enter a starting and ending address</p>
-                  <p><label for="user-start">Start at</label> <input id="user-start" value="4801 S Minnehaha Park Dr, Minneapolis, MN 55417"></p>
-                  <p><label for="user-end">End at</label> <input id="user-end" value="1339 Theodore Wirth Pkwy, Minneapolis, MN 55411"></p>
+                  <div class="form-group">
+                    <label for="user-start">Start at</label>
+                    <input id="user-start" class="form-control" value="4801 S Minnehaha Park Dr, Minneapolis, MN 55417">
+                  </div>
+                  <div class="form-group">
+                    <label for="user-end">End at</label>
+                    <input id="user-end" class="form-control" value="1339 Theodore Wirth Pkwy, Minneapolis, MN 55411">
+                  </div>
                 </div>
               </div>
             </div>
@@ -50,7 +56,10 @@
             <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
               <div class="panel-body">
                 <div id="user-waypoints-wrapper">
-                  <label for="user-waypoints">Select one or more destinations</label> <select multiple id="user-waypoints"></select><br><br>
+                  <div class="form-group">
+                    <label for="user-waypoints">Select one or more destinations</label>
+                    <select multiple size="8" id="user-waypoints" class="form-control"></select><br><br>
+                  </div>
                   <input type="submit" id="user-route-submit" value="Calculate best route">
                 </div>
               </div>
