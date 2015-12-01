@@ -19,7 +19,8 @@ var venues = {"type":"FeatureCollection","features":[{"type":"Feature","geometry
     i,
     wayList,
     waySelected = [],
-    entry;
+    entry,
+    lastDirSvcResponse; // holds the last route calculated
 
 /**
  * Enable popovers (via Bootstrap) in UI
@@ -208,10 +209,12 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
             if (status === google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
                 console.log(response);
+                lastDirSvcResponse = response;
                 route = response.routes[0];
                 summaryPanel = document.getElementById('directions-panel');
                 summaryPanel.innerHTML = '';
                 
+                summaryPanel.innerHTML += '<p><strong>Total route distance: ' + getRouteDistance(lastDirSvcResponse) + ' miles</strong></p>';
                 // For each route, display summary information.
                 for (i = 0; i < route.legs.length; i += 1) {
                     routeSegment = i + 1;
@@ -227,4 +230,38 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
             }
         }
     );
+}
+
+/**
+ * Check for existence of nested properties
+ *
+ * Sweet! http://stackoverflow.com/a/2631198
+ */
+function checkNested(obj /*, level1, level2, ... levelN*/) {
+    var args = Array.prototype.slice.call(arguments, 1);
+
+    for (var i = 0; i < args.length; i++) {
+        if (!obj || !obj.hasOwnProperty(args[i])) {
+          return false;
+        }
+        obj = obj[args[i]];
+    }
+    return true;
+}
+
+/**
+ * Get total distance of a route in miles
+ */
+function getRouteDistance(route) {
+    var i,
+        sumDistance = 0;
+
+    if (checkNested(route, 'routes', 0, 'legs', 'length')) {
+        for (i = 0; i < route.routes[0].legs.length; i += 1) {
+            sumDistance += route.routes[0].legs[i].distance.value;
+        }
+    } else {
+        return false;
+    }
+    return Math.round(sumDistance * 0.000621371 * 10) / 10; // floating point problems shouldn't come up with tenths of a mile, right?
 }
