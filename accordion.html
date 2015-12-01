@@ -19,7 +19,7 @@
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                   <span class="step">1</span> Where will you start and end?
                 </a>
-                <span role="button" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+                <span role="button" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your starting and ending locations. Already seeing addresses? Your location was reverse-geocoded.">
                     <span id="help-start-end" class="help-button glyphicon glyphicon-align-left glyphicon glyphicon-question-sign" aria-hidden="true">
                     </span>
                 </span>
@@ -31,11 +31,11 @@
                   <p>Enter a starting and ending address</p>
                   <div class="form-group">
                     <label for="user-start">Start at</label>
-                    <input id="user-start" class="form-control" value="4801 S Minnehaha Park Dr, Minneapolis, MN 55417">
+                    <input id="user-start" class="form-control">
                   </div>
                   <div class="form-group">
                     <label for="user-end">End at</label>
-                    <input id="user-end" class="form-control" value="1339 Theodore Wirth Pkwy, Minneapolis, MN 55411">
+                    <input id="user-end" class="form-control">
                   </div>
                 </div>
               </div>
@@ -47,18 +47,15 @@
                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                   <span class="step">2a</span> Choose your stops
                 </a>
-                <span role="button" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-                    <span id="help-start-end" class="help-button glyphicon glyphicon-align-left glyphicon glyphicon-question-sign" aria-hidden="true">
-                    </span>
-                </span>
               </h2>
             </div>
             <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
               <div class="panel-body">
                 <div id="user-waypoints-wrapper">
                   <div class="form-group">
-                    <label for="user-waypoints">Select one or more destinations</label>
-                    <select multiple size="8" id="user-waypoints" class="form-control"></select><br><br>
+                    <label for="user-waypoints">Select one to eight destinations</label>
+                    <select multiple size="8" id="user-waypoints" class="form-control"></select>
+                    <p><em>Windows: ctrl+click to select multiple<br>Mac: command+click to select multiple stops</em></p>
                   </div>
                   <input type="submit" id="user-route-submit" value="Calculate best route">
                 </div>
@@ -71,7 +68,7 @@
                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                   <span class="step">2b</span> Ask for a suggested route
                 </a>
-                <span role="button" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+                <span role="button" data-container="body" data-toggle="popover" data-placement="right" data-content="Tell us how many stops you'd like to make (up to 8) and about how many miles you'd like to go and we'll see what we can do for you.">
                     <span id="help-start-end" class="help-button glyphicon glyphicon-align-left glyphicon glyphicon-question-sign" aria-hidden="true">
                     </span>
                 </span>
@@ -80,6 +77,26 @@
             <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
               <div class="panel-body">
                 This is where the user will enter an approximate distance and number of stops for their journey.
+                <div class="form-group">
+                  <label for="random-stops">Number of stops to make</label>
+                  <select class="form-control" id="random-stops">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="random-distance" placeholder="distance in miles">
+                    <div class="input-group-addon">miles</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -110,7 +127,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/accordion.js" type="text/javascript"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoE3QwsVadgmw0_XaZ-z73oAniNltqo50&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoE3QwsVadgmw0_XaZ-z73oAniNltqo50&callback=initMap&signed_in=true">
     </script>
   </body>
 </html>
