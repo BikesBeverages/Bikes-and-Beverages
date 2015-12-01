@@ -3,7 +3,7 @@
     white: true
 */
 /*globals
-    google
+    google, jQuery
 */
 "use strict";
 
@@ -17,16 +17,15 @@ var venues = {"type":"FeatureCollection","features":[{"type":"Feature","geometry
     markerEnd,
     latLngRegex = /^-?\d+\.\d+,-?\d+\.\d+$/,
     i,
-    wayList, startList, endList,
-    entry1, entry2, entry3;
+    wayList,
+    entry;
 
 /**
  * Enable popovers (via Bootstrap) in UI
  */
 jQuery(document).ready(function() {
-  jQuery('[data-toggle="popover"]').popover()
-})
-
+  jQuery('[data-toggle="popover"]').popover();
+});
 
 /**
  * Sort venues by name
@@ -39,7 +38,6 @@ venues.features.sort(function(a, b) {
  * Create a name-indexed array of venues for easier lookup
  */
 for (i = 0; i < venues.features.length; i += 1) {
-    (venues.features[i].properties.Address2 !== '') ? (venues.features[i].properties.Address2 + "<br>") : '';
     venuesFriendly[(venues.features[i].properties.Name)] = {
         "coordinates": {
             "lat": venues.features[i].geometry.coordinates[1], "lng": venues.features[i].geometry.coordinates[0]
@@ -62,12 +60,12 @@ var startEndOption = document.getElementById("sf-same-start-end");
  */
 for (i = 0; i < venues.features.length; i+=1) {
     wayList = document.getElementById('user-waypoints');
-    entry1 = document.createElement('option');
-    entry1.text = venues.features[i].properties.Name;
-    entry1.value = venues.features[i].properties.Address1 + ', '
+    entry = document.createElement('option');
+    entry.text = venues.features[i].properties.Name;
+    entry.value = venues.features[i].properties.Address1 + ', '
                     + venues.features[i].properties.City + ', '
                     + venues.features[i].properties.State;
-    wayList.appendChild(entry1);
+    wayList.appendChild(entry);
 }
 
 function initMap() {
@@ -75,35 +73,29 @@ function initMap() {
         customMapTypeId,
         customMapType,
         bikeLayer,
-        // infowindow = new google.maps.InfoWindow(),
-        // titleWithLink,
-        // key,
         directionsService = new google.maps.DirectionsService(),
         directionsDisplay = new google.maps.DirectionsRenderer(),
-        geocoder = new google.maps.Geocoder,
-        browserSupportFlag,
+        geocoder = new google.maps.Geocoder(),
+        browserGeolocation,
         initialLocation,
         latlng;
 
     customMapType = new google.maps.StyledMapType(mapStyle, {name: 'Custom Style'});
-
     customMapTypeId = 'custom_style';
   
     map = new google.maps.Map(document.getElementById('google-map'), {
         zoom: 13,
         center: mapCenter,
         mapTypeControlOptions: {
-            mapTypeIds: [google.maps.MapTypeId.ROADMAP, customMapTypeId]
+            mapTypeIds: []
         }
     });
 
     /**
      * Geolocate using browser or stick with map center
-     *
-     * https://developers.google.com/maps/articles/geolocation
      */ 
     if(navigator.geolocation) {
-        browserSupportFlag = true;
+        browserGeolocation = true;
         navigator.geolocation.getCurrentPosition(function(position) {
             initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
             latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
@@ -118,9 +110,6 @@ function initMap() {
                         if (document.getElementById('user-end').value === '') {
                             document.getElementById('user-end').value = results[0].formatted_address;
                         }
-                        // console.log('Geocoder result(s) found');
-                        // console.log(results);
-                        // console.log(status);
                       } else {
                         console.log('Geocoder: No results found');
                       }
@@ -133,9 +122,8 @@ function initMap() {
             }
         });
     } else {
-        browserSupportFlag = false;
+        browserGeolocation = false;
     }
-
 
     directionsDisplay.setMap(map);
     map.mapTypes.set(customMapTypeId, customMapType);
@@ -145,19 +133,6 @@ function initMap() {
     document.getElementById('user-route-submit').addEventListener('click', function() {
         calculateAndDisplayRoute(directionsService, directionsDisplay);
     });
-
-    /*for (key in venuesFriendly) {
-        marker = new google.maps.Marker({
-            position: venuesFriendly[key].coordinates,
-            map: map,
-            title: key,
-            label: ' '
-        });
-
-        titleWithLink = (venuesFriendly[key].website !== '') ? '<a href="' + venuesFriendly[key].website + '" target="_blank">' + key + '</a>' : key;
-        makeInfoWindowEvent(map, infowindow, titleWithLink + "<br>" + venuesFriendly[key].fullAddr, marker);
-        markers.push(marker);
-    }*/  
 }
 
 function makeInfoWindowEvent(map, infowindow, contentString, marker) {
