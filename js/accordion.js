@@ -18,6 +18,7 @@ var venues = {"type":"FeatureCollection","features":[{"type":"Feature","geometry
     latLngRegex = /^-?\d+\.\d+,-?\d+\.\d+$/,
     i,
     wayList,
+    waySelected = [],
     entry;
 
 /**
@@ -26,6 +27,45 @@ var venues = {"type":"FeatureCollection","features":[{"type":"Feature","geometry
 $(document).ready(function() {
   $('[data-toggle="popover"]').popover();
 });
+
+/**
+ * Don't let users select more than eight waypoints
+ *
+ * Warn users if they try to select more than eight waypoints. Revert them to the previous state.
+ */
+$('#user-waypoints').change(function(e){
+    if (e.currentTarget.selectedOptions.length > 8) {
+        revertWaypoints();
+        $('#too-many-selected-waypoints').modal();
+    } else {
+        updateWaySelected();
+    }
+});
+
+/**
+ * Update the seet of selected waypoints global
+ *
+ * Used to aid in lookback, so a user trying to select more than eight
+ * waypoints will have their selection reverted to the previous saved
+ * set.
+ */
+function updateWaySelected() {
+    waySelected = [];
+    $('#user-waypoints option:selected').each(function() {
+        waySelected.push($(this).index());
+    });
+}
+
+/**
+ * Set the selected waypoints based on the global (for rollback)
+ */
+function revertWaypoints() {
+    var i;
+    $("#user-waypoints option:selected").removeAttr("selected");
+    for (i = 0; i < waySelected.length; i += 1) {
+        $('#user-waypoints option:eq(' + waySelected[i] + ')').prop('selected', true);
+    }
+}
 
 /**
  * Sort venues by name
