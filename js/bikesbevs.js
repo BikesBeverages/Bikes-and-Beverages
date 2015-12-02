@@ -116,10 +116,22 @@ function initMap() {
         bikeLayer,
         directionsService = new google.maps.DirectionsService(),
         directionsDisplay = new google.maps.DirectionsRenderer(),
+        autocompleteBiasArea = new google.maps.Circle({
+            center: mapCenter,
+            radius: 50000
+        }),
+        autocompleteOptions = {
+            bounds: autocompleteBiasArea,
+            componentRestrictions: {country: 'us'}
+        },
         geocoder = new google.maps.Geocoder(),
         browserGeolocation,
         initialLocation,
-        latlng;
+        latlng,
+        userStart = document.getElementById('user-start'),
+        userEnd = document.getElementById('user-end'),
+        autocompleteStart = new google.maps.places.Autocomplete(userStart, autocompleteOptions),
+        autocompleteEnd = new google.maps.places.Autocomplete(userEnd, autocompleteOptions);
 
     customMapType = new google.maps.StyledMapType(mapStyle, {name: 'Custom Style'});
     customMapTypeId = 'custom_style';
