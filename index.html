@@ -66,6 +66,7 @@
               </div>
             </div>
           </div>
+
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingThree">
               <h2 class="panel-title">
@@ -103,6 +104,31 @@
               </div>
             </div>
           </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwoC">
+              <h2 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwoC" aria-expanded="false" aria-controls="collapseTwoC">
+                  <span class="step">2c</span> Really roll the dice
+                </a>
+                <span role="button" data-container="body" data-toggle="popover" data-placement="right" data-content="We'll just decide how many stops you should make.">
+                    <span id="help-start-end" class="help-button glyphicon glyphicon-align-left glyphicon glyphicon-question-sign" aria-hidden="true">
+                    </span>
+                </span>
+              </h2>
+            </div>
+            <div id="collapseTwoC" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwoC">
+              <div class="panel-body">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" id="dice-roll-optimize-waypoints" checked> Optimize stop order / minimize trip distance?
+                  </label>
+                </div>
+                <input type="submit" class="btn btn-default" id="submit-roll-the-dice" value="Calculate best route">
+              </div>
+            </div>
+          </div>
+
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingFour">
               <h2 class="panel-title">
