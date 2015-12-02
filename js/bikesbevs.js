@@ -198,6 +198,11 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         }
     }
 
+    if (waypts.length === 0) {
+        $('#gotta-select-a-waypoint').modal();
+        return false;
+    }
+
     directionsService.route({
             origin: document.getElementById('user-start').value,
             destination: document.getElementById('user-end').value,
