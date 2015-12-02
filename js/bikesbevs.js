@@ -222,7 +222,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
             optimizeWaypoints: true,
             travelMode: google.maps.TravelMode.BICYCLING
         }, function (response, status) {
-            var route, summaryPanel, waypointNamesOrdered;
+            var route, summaryPanel, stopProgressionHtml, detailProgressionHtml, waypointNamesOrdered;
             if (status === google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
                 console.log(response);
@@ -231,33 +231,45 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
                 route = response.routes[0];
                 summaryPanel = document.getElementById('directions-panel');
                 summaryPanel.innerHTML = '';
+                detailProgressionHtml = '';
+                stopProgressionHtml = '';
                 
-                summaryPanel.innerHTML += '<p><strong>Total route distance: ' + getRouteDistance(lastDirSvcResponse) + ' miles</strong></p>';
+                detailProgressionHtml += '<p><strong>Total route distance: ' + getRouteDistance(lastDirSvcResponse) + ' miles</strong></p>';
                 // For each route, display summary information.
                 for (i = 0; i < route.legs.length; i += 1) {
                     routeSegment = i + 1;
-                    summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                    detailProgressionHtml += '<p><b>Route Segment: ' + routeSegment +
                     '</b><br>';
                     
-                    summaryPanel.innerHTML +=  '<strong>From</strong> ';
+                    detailProgressionHtml +=  '<strong>From</strong> ';
 
                     if (i === 0) {
-                        summaryPanel.innerHTML += route.legs[i].start_address;    
+                        detailProgressionHtml += route.legs[i].start_address;
+                        stopProgressionHtml += '<p class="text-center">' + route.legs[i].start_address + '</p>';
                     } else {
-                        summaryPanel.innerHTML += waypointNamesOrdered[i-1];
+                        detailProgressionHtml += waypointNamesOrdered[i-1];
+                        stopProgressionHtml += '<p class="text-center">' + waypointNamesOrdered[i-1] + '</p>';
                     }
 
-                    summaryPanel.innerHTML += ' <strong>to</strong> ';
+                    detailProgressionHtml += ' <strong>to</strong> ';
 
                     if (i === (route.legs.length - 1)) {
-                        summaryPanel.innerHTML += route.legs[i].end_address;
+                        detailProgressionHtml += route.legs[i].end_address;
+                        stopProgressionHtml += '<p class="text-center"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></p>';
+                        stopProgressionHtml += '<p class="text-center">' + route.legs[i].end_address + '</p>';
                     } else {
-                        summaryPanel.innerHTML += waypointNamesOrdered[i];
+                        detailProgressionHtml += waypointNamesOrdered[i];
                     }
 
-                    summaryPanel.innerHTML += '<br>';
-                    summaryPanel.innerHTML += '<strong>Leg distance: </strong> ' + route.legs[i].distance.text + '<br><br>';
+                    detailProgressionHtml += '<br>';
+                    detailProgressionHtml += '<strong>Leg distance: </strong> ' + route.legs[i].distance.text + '</p>';
+
+                    if (i !== (route.legs.length - 1)) {
+                        stopProgressionHtml += '<p class="text-center"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></p>';
+                    }
                 }
+                summaryPanel.innerHTML += stopProgressionHtml;
+                summaryPanel.innerHTML += detailProgressionHtml;
             } else {
                 window.alert('Directions request failed due to ' + status);
             }
