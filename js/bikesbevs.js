@@ -205,11 +205,12 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
             optimizeWaypoints: true,
             travelMode: google.maps.TravelMode.BICYCLING
         }, function (response, status) {
-            var route, summaryPanel;
+            var route, summaryPanel, waypointNamesOrdered;
             if (status === google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
                 console.log(response);
                 lastDirSvcResponse = response;
+                waypointNamesOrdered = getWaypointNamesInOrder(lastDirSvcResponse);
                 route = response.routes[0];
                 summaryPanel = document.getElementById('directions-panel');
                 summaryPanel.innerHTML = '';
@@ -220,9 +221,24 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
                     routeSegment = i + 1;
                     summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
                     '</b><br>';
-                    // console.log(route.legs[i]);
-                    summaryPanel.innerHTML += '<strong>From</strong> ' + route.legs[i].start_address + ' <strong>to</strong> ';
-                    summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                    
+                    summaryPanel.innerHTML +=  '<strong>From</strong> ';
+
+                    if (i === 0) {
+                        summaryPanel.innerHTML += route.legs[i].start_address;    
+                    } else {
+                        summaryPanel.innerHTML += waypointNamesOrdered[i-1];
+                    }
+
+                    summaryPanel.innerHTML += ' <strong>to</strong> ';
+
+                    if (i === (route.legs.length - 1)) {
+                        summaryPanel.innerHTML += route.legs[i].end_address;
+                    } else {
+                        summaryPanel.innerHTML += waypointNamesOrdered[i];
+                    }
+
+                    summaryPanel.innerHTML += '<br>';
                     summaryPanel.innerHTML += '<strong>Leg distance: </strong> ' + route.legs[i].distance.text + '<br><br>';
                 }
             } else {
@@ -264,4 +280,24 @@ function getRouteDistance(route) {
         return false;
     }
     return Math.round(sumDistance * 0.000621371 * 10) / 10; // floating point problems shouldn't come up with tenths of a mile, right?
+}
+
+/**
+ * Pull the names of waypoints in order
+ *
+ * Check waypoint_order from a route against our option list to pull names
+ */
+function getWaypointNamesInOrder(route) {
+    var i,
+        orderedStopNames = [];
+
+    if (checkNested(lastDirSvcResponse, 'routes', 0, 'waypoint_order', 'length')) {
+        for (i = 0; i < lastDirSvcResponse.routes[0].waypoint_order.length; i += 1) {
+            orderedStopNames.push($('#user-waypoints option:selected:eq(' + lastDirSvcResponse.routes[0].waypoint_order[i] +  ')').html());
+        }
+    } else {
+        return false;
+    }
+
+    return orderedStopNames;
 }
