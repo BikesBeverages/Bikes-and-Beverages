@@ -179,6 +179,7 @@ function initMap() {
     }
 
     directionsDisplay.setMap(map);
+	directionsDisplay.setPanel(document.getElementById('directions-pane2'));
     map.mapTypes.set(customMapTypeId, customMapType);
     map.setMapTypeId(customMapTypeId);
     bikeLayer = new google.maps.BicyclingLayer();
@@ -190,7 +191,7 @@ function initMap() {
 
 function makeInfoWindowEvent(map, infowindow, contentString, marker) {
   google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent(contentString);
+	infowindow.setContent(contentString);
     infowindow.open(map, marker);
   });
 }
@@ -234,42 +235,42 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
                 detailProgressionHtml = '';
                 stopProgressionHtml = '';
                 
-                detailProgressionHtml += '<p><strong>Total route distance: ' + getRouteDistance(lastDirSvcResponse) + ' miles</strong></p>';
+           //   detailProgressionHtml += '<p><strong>Total route distance: ' + getRouteDistance(lastDirSvcResponse) + ' miles</strong></p>';
                 // For each route, display summary information.
                 for (i = 0; i < route.legs.length; i += 1) {
                     routeSegment = i + 1;
-                    detailProgressionHtml += '<p><b>Route Segment: ' + routeSegment +
+                 //   detailProgressionHtml += '<p><b>Route Segment: ' + routeSegment +
                     '</b><br>';
                     
-                    detailProgressionHtml +=  '<strong>From</strong> ';
+                  // detailProgressionHtml +=  '<strong>From</strong> ';
 
                     if (i === 0) {
-                        detailProgressionHtml += route.legs[i].start_address;
-                        stopProgressionHtml += '<p class="text-center">' + route.legs[i].start_address + '</p>';
+                       // detailProgressionHtml += route.legs[i].start_address;
+                    stopProgressionHtml += '<p class="text-center">' + route.legs[i].start_address + '</p>';
                     } else {
-                        detailProgressionHtml += waypointNamesOrdered[i-1];
-                        stopProgressionHtml += '<p class="text-center">' + waypointNamesOrdered[i-1] + '</p>';
+                     //   detailProgressionHtml += waypointNamesOrdered[i-1];
+                       stopProgressionHtml += '<p class="text-center">' + waypointNamesOrdered[i-1] + '</p>';
                     }
 
-                    detailProgressionHtml += ' <strong>to</strong> ';
+                //   detailProgressionHtml += ' <strong>to</strong> ';
 
                     if (i === (route.legs.length - 1)) {
-                        detailProgressionHtml += route.legs[i].end_address;
-                        stopProgressionHtml += '<p class="text-center"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></p>';
+                     //   detailProgressionHtml += route.legs[i].end_address;
+                       stopProgressionHtml += '<p class="text-center"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></p>';
                         stopProgressionHtml += '<p class="text-center">' + route.legs[i].end_address + '</p>';
                     } else {
-                        detailProgressionHtml += waypointNamesOrdered[i];
+                  //      detailProgressionHtml += waypointNamesOrdered[i];
                     }
 
-                    detailProgressionHtml += '<br>';
-                    detailProgressionHtml += '<strong>Leg distance: </strong> ' + route.legs[i].distance.text + '</p>';
+                 //  detailProgressionHtml += '<br>';
+                  // detailProgressionHtml += '<strong>Leg distance: </strong> ' + route.legs[i].distance.text + '</p>';
 
                     if (i !== (route.legs.length - 1)) {
-                        stopProgressionHtml += '<p class="text-center"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></p>';
+                       stopProgressionHtml += '<p class="text-center"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></p>';
                     }
                 }
-                summaryPanel.innerHTML += stopProgressionHtml;
-                summaryPanel.innerHTML += detailProgressionHtml;
+               summaryPanel.innerHTML += stopProgressionHtml;
+              //  summaryPanel.innerHTML += detailProgressionHtml;
             } else {
                 window.alert('Directions request failed due to ' + status);
             }
