@@ -273,16 +273,20 @@ function diceRoll(minStops, maxStops) {
     var numStops,
         venueChoices,
         stopIds = [],
+        elements,
         i, j,
         iStop,
         stopFound;
 
     minStops = minStops || 1;
     maxStops = maxStops || 8;
-
     numStops = Math.floor(Math.random() * (maxStops - minStops)) + minStops;
-    venueChoices = $('#user-waypoints option').length;
-    $('#user-waypoints option').prop('selected', false);
+    venueChoices = document.getElementById('user-waypoints').length;
+
+    elements = document.querySelectorAll('#user-waypoints option');
+    Array.prototype.forEach.call(elements, function(el, i) {
+        el.selected = false;
+    });
 
     for (i = 0; i < numStops; i += 1) {
         stopFound = false;
@@ -299,9 +303,9 @@ function diceRoll(minStops, maxStops) {
         }
     }
 
-    $(stopIds).each(function(key, val) {
-        $('#user-waypoints option:eq(' + val + ')').prop('selected', true);
-    });
+    for (i = 0; i < stopIds.length; i += 1) {
+        elements[stopIds[i]].selected = true;
+    }
 
     return true;
 }
