@@ -87,7 +87,8 @@ for (i = 0; i < venues.features.length; i += 1) {
                     + ((venues.features[i].properties.Address2 !== '') ? (venues.features[i].properties.Address2 + "<br>") : '')
                     + venues.features[i].properties.City + ' '
                     + venues.features[i].properties.ZIP,
-        "website": venues.features[i].properties.Website
+        "website": venues.features[i].properties.Website,
+        "bbid": venues.features[i].properties.bbid
     };
 }
 
@@ -106,6 +107,7 @@ for (i = 0; i < venues.features.length; i+=1) {
     entry.value = venues.features[i].properties.Address1 + ', '
                     + venues.features[i].properties.City + ', '
                     + venues.features[i].properties.State;
+    entry.setAttribute('data-bbid', venues.features[i].properties.bbid);
     wayList.appendChild(entry);
 }
 
