@@ -187,6 +187,14 @@ function initMap() {
     document.getElementById('user-route-submit').addEventListener('click', function() {
         calculateAndDisplayRoute(directionsService, directionsDisplay);
     });
+
+    document.getElementById('submit-roll-the-dice').addEventListener('click', function() {
+        if (diceRoll()) {
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+        } else {
+            alert("Something went wrong while rolling the dice.");
+        }
+    });
 }
 
 function makeInfoWindowEvent(map, infowindow, contentString, marker) {
