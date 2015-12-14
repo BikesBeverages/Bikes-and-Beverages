@@ -264,6 +264,50 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 }
 
 /**
+ * Roll the dice routes
+ *
+ * Pick a number between 1 and 8 (settable) Then randomly select that
+ * many destinations. And generate the route.
+ */
+function diceRoll(minStops, maxStops) {
+    var minStops = minStops || 1,
+        maxStops = maxStops || 8,
+        numStops,
+        numVenues,
+        stopIds = [],
+        i, j,
+        iStop,
+        stopFound;
+
+    numStops = Math.floor(Math.random() * (maxStops - minStops)) + minStops;
+    numVenues = $('#user-waypoints option').length;
+    $('#user-waypoints option').prop('selected', false);
+
+    console.log('Venues: ' + numVenues + "\nStops: " + numStops);
+
+    for (i = 0; i < numStops; i += 1) {
+        stopFound = false;
+        iStop = Math.floor(Math.random() * numVenues);
+
+        for (j = 0; j < stopIds; j += 1) {
+            if (stopIds[j] = iStop) {
+                stopFound = true;
+                console.log('stop already exists: ' + iStop);
+            } else {
+                console.log('stop not there: ' + iStop);
+            }
+        }
+
+        if (!stopFound) {
+            stopIds.push(iStop);
+        }
+    }
+    console.log(stopIds);
+
+}
+
+
+/**
  * Check for existence of nested properties
  *
  * Sweet! http://stackoverflow.com/a/2631198
