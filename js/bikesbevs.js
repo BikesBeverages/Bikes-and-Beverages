@@ -267,34 +267,30 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
  * Roll the dice routes
  *
  * Pick a number between 1 and 8 (settable) Then randomly select that
- * many destinations. And generate the route.
+ * many destinations. And generate the route. Side effects only.
  */
 function diceRoll(minStops, maxStops) {
-    var minStops = minStops || 1,
-        maxStops = maxStops || 8,
-        numStops,
-        numVenues,
+    var numStops,
+        venueChoices,
         stopIds = [],
         i, j,
         iStop,
         stopFound;
 
-    numStops = Math.floor(Math.random() * (maxStops - minStops)) + minStops;
-    numVenues = $('#user-waypoints option').length;
-    $('#user-waypoints option').prop('selected', false);
+    minStops = minStops || 1;
+    maxStops = maxStops || 8;
 
-    console.log('Venues: ' + numVenues + "\nStops: " + numStops);
+    numStops = Math.floor(Math.random() * (maxStops - minStops)) + minStops;
+    venueChoices = $('#user-waypoints option').length;
+    $('#user-waypoints option').prop('selected', false);
 
     for (i = 0; i < numStops; i += 1) {
         stopFound = false;
-        iStop = Math.floor(Math.random() * numVenues);
-
+        iStop = Math.floor(Math.random() * venueChoices);
         for (j = 0; j < stopIds; j += 1) {
-            if (stopIds[j] = iStop) {
+            if (stopIds[j] === iStop) {
                 stopFound = true;
-                console.log('stop already exists: ' + iStop);
-            } else {
-                console.log('stop not there: ' + iStop);
+                break;
             }
         }
 
@@ -302,8 +298,12 @@ function diceRoll(minStops, maxStops) {
             stopIds.push(iStop);
         }
     }
-    console.log(stopIds);
 
+    $(stopIds).each(function(key, val) {
+        $('#user-waypoints option:eq(' + val + ')').prop('selected', true);
+    });
+
+    return true;
 }
 
 
