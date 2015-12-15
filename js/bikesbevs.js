@@ -151,33 +151,41 @@ function initMap() {
      */ 
     if(navigator.geolocation) {
         browserGeolocation = true;
-        navigator.geolocation.getCurrentPosition(function(position) {
-            initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-            latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
-            map.setCenter(initialLocation);
-            if (document.getElementById('user-start').value !== '' || document.getElementById('user-end').value === '') {
-                geocoder.geocode({'location': latlng}, function(results, status) {
-                    if (status === google.maps.GeocoderStatus.OK) {
-                      if (results[0]) {
-                        if (document.getElementById('user-start').value === '') {
-                            document.getElementById('user-start').value = results[0].formatted_address;
+        if (shareUrlInput() === false) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
+                map.setCenter(initialLocation);
+                if (document.getElementById('user-start').value !== '' || document.getElementById('user-end').value === '') {
+                    geocoder.geocode({'location': latlng}, function(results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                          if (results[0]) {
+                            if (document.getElementById('user-start').value === '') {
+                                document.getElementById('user-start').value = results[0].formatted_address;
+                            }
+                            if (document.getElementById('user-end').value === '') {
+                                document.getElementById('user-end').value = results[0].formatted_address;
+                            }
+                          } else {
+                            console.log('Geocoder: No results found');
+                          }
+                        } else {
+                            console.log('Geocoder failed due to: ' + status);
+                            console.log('Geocoder results:');
+                            console.log(results);
                         }
-                        if (document.getElementById('user-end').value === '') {
-                            document.getElementById('user-end').value = results[0].formatted_address;
-                        }
-                      } else {
-                        console.log('Geocoder: No results found');
-                      }
-                    } else {
-                        console.log('Geocoder failed due to: ' + status);
-                        console.log('Geocoder results:');
-                        console.log(results);
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
     } else {
         browserGeolocation = false;
+    }
+
+    if (shareUrlInput()) {
+        if (setFromQueryString()) {
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+        }
     }
 
     directionsDisplay.setMap(map);
@@ -270,10 +278,13 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
                     }
                 }
                 totalDistance = Math.round(totalDistance * 0.000621371 * 10) / 10;
-                summaryPanel.innerHTML += "<p>You've got <strong>" + totalStops + "</strong> stops and <strong>" + totalDistance + " miles</strong> of joy ahead of you.";
-                summaryPanel.innerHTML += stopProgressionHtml;
+                summaryPanel.innerHTML += "<p>You've got <strong>" + totalStops + "</strong> stops and <strong>" + totalDistance + " miles</strong> of joy ahead of you."
+                                        + stopProgressionHtml
+                                        + '<p class="text-center"><strong>Want to share this route?</strong> <a href="'
+                                        + window.location.origin + window.location.pathname + '?' + getShareQueryString()
+                                        + '">Copy this URL</a>.</p>';
 
-                $('#collapseTwo, #collapseTwoC').filter(".in").collapse("toggle");
+                $('#collapseOne, #collapseTwo, #collapseTwoC').filter(".in").collapse("toggle");
                 $('#collapseFour').collapse('show');
             } else {
                 window.alert('Directions request failed due to ' + status);
@@ -382,4 +393,92 @@ function getWaypointNamesInOrder(route) {
     }
 
     return orderedStopNames;
+}
+
+/**
+ * Generate query string for sharing
+ *
+ * s = start address
+ * e = end address
+ * w = | delimited BBIDs
+ */
+function getShareQueryString() {
+    var s = encodeURIComponent(document.getElementById('user-start').value),
+        e = encodeURIComponent(document.getElementById('user-end').value),
+        w, wArr = [];
+
+    $('#user-waypoints option:selected').each(function() {
+        wArr.push($(this).attr('data-bbid'));
+    });
+
+    w = wArr.join('|');
+
+    return 's=' + s + '&e=' + e + '&w=' + w;
+}
+
+/**
+ * Does the URL have a query string with components that indicate a share URL?
+ */
+function shareUrlInput() {
+    var s, e, w;
+    s = getQueryVariable('s');
+    e = getQueryVariable('e');
+    w = getQueryVariable('w');
+    if (s && e && w) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Set values and selections based on query string
+ *
+ * Set start address, end address, and waypoints based on query string.
+ */
+function setFromQueryString() {
+    var s, e, w, wArr = [], elements, i;
+
+    s = decodeURIComponent(getQueryVariable('s'));
+    e = decodeURIComponent(getQueryVariable('e'));
+    w = decodeURIComponent(getQueryVariable('w'));
+
+    document.getElementById('user-start').value = s;
+    document.getElementById('user-end').value = e;
+
+    // The select list could somehow have something selected
+    elements = document.querySelectorAll('#user-waypoints option');
+    Array.prototype.forEach.call(elements, function(el, i) {
+        el.selected = false;
+    });
+
+    wArr = w.split('|');
+    for (i = 0; i < wArr.length; i += 1) {
+        $("#user-waypoints option[data-bbid='" + wArr[i] +  "'").prop('selected', true);
+    }
+
+    return true;
+}
+
+// http://localhost:8080/s=Blegen%20Hall%2C%20Minneapolis%2C%20MN%2C%20United%20States&e=Blegen%20Hall%2C%20Minneapolis%2C%20MN%2C%20United%20States&w=3dd8b7%7C40f402
+/**
+ * Get query string variable
+ *
+ * https://css-tricks.com/snippets/javascript/get-url-variables/
+ * updated to remove last character if it's a '/'
+ */
+function getQueryVariable(variable)
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i += 1) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+            if (pair[1].slice(-1) === '/') {
+                return pair[1].slice(0, -1);    
+            }
+            return pair[1];
+        }
+    }
+    return(false);
 }
