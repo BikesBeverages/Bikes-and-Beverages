@@ -28,7 +28,7 @@ body {
 .map-controls{
     float: left;
     height: calc(100% - 80px);
-    width: 280px;
+    width: 300px;
     margin: 0;
     padding: 0;
     overflow: scroll;
@@ -37,7 +37,7 @@ body {
 .map-wrapper {
     float: left;
     height: calc(100% - 80px);
-    width: calc(100% - 280px);
+    width: calc(100% - 300px);
     margin: 0;
     padding: 0;
 }
