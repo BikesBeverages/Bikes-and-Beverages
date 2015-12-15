@@ -187,11 +187,13 @@ function initMap() {
     bikeLayer = new google.maps.BicyclingLayer();
     bikeLayer.setMap(map);
     document.getElementById('user-route-submit').addEventListener('click', function() {
+        document.getElementById('directions-pane2').innerHTML = '';
         calculateAndDisplayRoute(directionsService, directionsDisplay);
     });
 
     document.getElementById('submit-roll-the-dice').addEventListener('click', function() {
         if (diceRoll()) {
+            document.getElementById('directions-pane2').innerHTML = '';
             calculateAndDisplayRoute(directionsService, directionsDisplay);
         } else {
             alert("Something went wrong while rolling the dice.");

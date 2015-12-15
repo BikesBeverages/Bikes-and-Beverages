@@ -66,7 +66,7 @@
               </div>
             </div>
           </div>
-          <div class="panel panel-default">
+<!--           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingThree">
               <h2 class="panel-title">
                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -84,13 +84,13 @@
                   <label for="random-stops">Number of stops on your adventure</label>
                   <select class="form-control" id="random-stops">
                     <option>1</option>
-<!--                     <option>2</option>
+                    <option>2</option>
                     <option>3</option>
                     <option>4</option>
                     <option>5</option>
                     <option>6</option>
                     <option>7</option>
-                    <option>8</option> -->
+                    <option>8</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -102,14 +102,14 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingTwoC">
               <h2 class="panel-title">
                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwoC" aria-expanded="false" aria-controls="collapseTwoC">
-                  <span class="step">2c</span> Really roll the dice
+                  <span class="step">2b</span> Roll the dice
                 </a>
-                <span role="button" data-container="body" data-toggle="popover" data-placement="right" data-content="We'll just decide how many stops you should make.">
+                <span role="button" data-container="body" data-toggle="popover" data-placement="right" data-content="We'll just decide how many stops you should make and where you should make them.">
                     <span id="help-start-end" class="help-button glyphicon glyphicon-align-left glyphicon glyphicon-question-sign" aria-hidden="true">
                     </span>
                 </span>
@@ -122,6 +122,7 @@
                     <input type="checkbox" id="dice-roll-optimize-waypoints" checked> Optimize stop order / minimize trip distance?
                   </label>
                 </div> -->
+                <p>We'll just decide how many stops you should make and where you should make them. Could be one, could be eight. Roll the dice.</p>
                 <input type="submit" class="btn btn-default" id="submit-roll-the-dice" value="Give me a route">
               </div>
             </div>
@@ -136,7 +137,7 @@
             </div>
             <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
               <div class="panel-body">
-                <div id="directions-panel" class="directions-panel"></div>
+                <div id="directions-panel" class="directions-panel"><p><em>You haven't generated a route yet.</em></p></div>
 				</div>
             </div>
           </div>
@@ -150,7 +151,7 @@
             </div>
             <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
               <div class="panel-body">
-                <div id="directions-pane2" class="directions-pane2"></div>
+                <div id="directions-pane2" class="directions-pane2"><p><em>You haven't generated a route yet.</em></p></div>
 				</div>
             </div>
           </div>
