@@ -272,9 +272,8 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
                 totalDistance = Math.round(totalDistance * 0.000621371 * 10) / 10;
                 summaryPanel.innerHTML += "<p>You've got <strong>" + totalStops + "</strong> stops and <strong>" + totalDistance + " miles</strong> of joy ahead of you.";
                 summaryPanel.innerHTML += stopProgressionHtml;
-                $(".panel-title a[data-toggle='collapse'][aria-expanded='true']").each(function() {
-                    $(this).collapse();
-                });
+
+                $('#collapseTwo, #collapseTwoC').collapse('hide');
                 $('#collapseFour').collapse('show');
             } else {
                 window.alert('Directions request failed due to ' + status);
