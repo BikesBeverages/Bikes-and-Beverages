@@ -91,9 +91,13 @@ $(document).ready(function () {
                 for (loopOrigin = 0; loopOrigin < data.origin_addresses.length; loopOrigin += 1) {
                     for (loopDest = 0; loopDest < data.destination_addresses.length; loopDest += 1) {
                         if (!distanceMatrix.hasOwnProperty(idMapReverse[data.origin_addresses[loopOrigin]])) {
-                            distanceMatrix[idMapReverse[data.origin_addresses[loopOrigin]]] = [];
+                            distanceMatrix[idMapReverse[data.origin_addresses[loopOrigin]]] = {};
                         }
                         distanceMatrix[idMapReverse[data.origin_addresses[loopOrigin]]][idMapReverse[data.destination_addresses[loopDest]]] = 0.000621371 * (data.rows[loopOrigin].elements[loopDest].distance.value);
+
+                        if (loopOrigin === (data.origin_addresses.length - 1) && loopDest === (data.destination_addresses.length - 1)) {
+                            $('#results').html(JSON.stringify(distanceMatrix));
+                        }
                     }
                 }
             });
