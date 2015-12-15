@@ -273,7 +273,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
                 summaryPanel.innerHTML += "<p>You've got <strong>" + totalStops + "</strong> stops and <strong>" + totalDistance + " miles</strong> of joy ahead of you.";
                 summaryPanel.innerHTML += stopProgressionHtml;
 
-                $('#collapseTwo, #collapseTwoC').collapse('hide');
+                $('#collapseTwo, #collapseTwoC').filter(".in").collapse("toggle");
                 $('#collapseFour').collapse('show');
             } else {
                 window.alert('Directions request failed due to ' + status);
