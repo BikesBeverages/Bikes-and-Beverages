@@ -124,7 +124,6 @@ function initMap() {
             radius: 50000
         }),
         autocompleteOptions = {
-            bounds: autocompleteBiasArea,
             componentRestrictions: {country: 'us'}
         },
         geocoder = new google.maps.Geocoder(),
