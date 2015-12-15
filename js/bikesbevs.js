@@ -235,21 +235,24 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
             optimizeWaypoints: true,
             travelMode: google.maps.TravelMode.BICYCLING
         }, function (response, status) {
-            var route, summaryPanel, stopProgressionHtml, detailProgressionHtml, waypointNamesOrdered;
+            var route, summaryPanel, stopProgressionHtml, detailProgressionHtml, waypointNamesOrdered, totalStops, totalDistance = 0;
             if (status === google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
                 lastDirSvcResponse = response;
+                console.log(response);
                 waypointNamesOrdered = getWaypointNamesInOrder(lastDirSvcResponse);
                 route = response.routes[0];
                 summaryPanel = document.getElementById('directions-panel');
                 summaryPanel.innerHTML = '';
-                detailProgressionHtml = '';
+                detailProgressionHtml = ''; 
                 stopProgressionHtml = '';
                 
+                totalStops = route.legs.length - 1;
+
                 // For each route, display summary information.
                 for (i = 0; i < route.legs.length; i += 1) {
+                    totalDistance += route.legs[i].distance.value;
                     routeSegment = i + 1;
-                    '</b><br>';
                     
                     if (i === 0) {
                     stopProgressionHtml += '<p class="text-center">' + route.legs[i].start_address + '</p>';
@@ -266,7 +269,13 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
                        stopProgressionHtml += '<p class="text-center"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> (' + route.legs[i].distance.text + ')</p>';
                     }
                 }
-               summaryPanel.innerHTML += stopProgressionHtml;
+                totalDistance = Math.round(totalDistance * 0.000621371 * 10) / 10;
+                summaryPanel.innerHTML += "<p>You've got <strong>" + totalStops + "</strong> stops and <strong>" + totalDistance + " miles</strong> of joy ahead of you.";
+                summaryPanel.innerHTML += stopProgressionHtml;
+                $(".panel-title a[data-toggle='collapse'][aria-expanded='true']").each(function() {
+                    $(this).collapse();
+                });
+                $('#collapseFour').collapse('show');
             } else {
                 window.alert('Directions request failed due to ' + status);
             }
