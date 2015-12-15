@@ -236,7 +236,6 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
             var route, summaryPanel, stopProgressionHtml, detailProgressionHtml, waypointNamesOrdered;
             if (status === google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
-                console.log(response);
                 lastDirSvcResponse = response;
                 waypointNamesOrdered = getWaypointNamesInOrder(lastDirSvcResponse);
                 route = response.routes[0];
